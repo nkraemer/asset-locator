@@ -1,3 +1,5 @@
+@import './colors.css';
+
 *,
 *::before,
 *::after {
@@ -8,20 +10,20 @@
 
 body {
   font-family: system-ui, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #f64f59 100%);
+  background: linear-gradient(135deg, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
   min-height: 100vh;
-  color: #1a1a1a;
+  color: var(--color-text-body);
   padding: 2rem;
 }
 
 h1 {
   margin-bottom: 1rem;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--color-text-heading);
+  text-shadow: none;
 }
 
 .description {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-secondary);
   margin-bottom: 2rem;
   max-width: 60ch;
   line-height: 1.6;
@@ -34,12 +36,12 @@ h1 {
 }
 
 .panel {
-  background: #fff;
+  background: var(--color-panel-bg);
   border-radius: 8px;
   padding: 1.5rem;
   flex: 1;
   min-width: 220px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--color-panel-shadow);
 }
 
 .panel h2 {
@@ -47,7 +49,7 @@ h1 {
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .field {
@@ -59,21 +61,21 @@ h1 {
 
 .field label {
   font-weight: 500;
-  color: #333;
+  color: var(--color-text-label);
 }
 
 .field input[type='number'],
 .field output {
   width: 120px;
   padding: 0.4rem 0.6rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-input-border);
   border-radius: 4px;
   font-size: 1rem;
   text-align: right;
 }
 
 .field output {
-  background: #f5f5f5;
+  background: var(--color-output-bg);
   border-color: transparent;
   display: inline-block;
 }
@@ -81,7 +83,7 @@ h1 {
 .panel h2.section-heading {
   margin-top: 1.25rem;
   padding-top: 1rem;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--color-panel-divider);
 }
 
 .dollar-field {
@@ -91,7 +93,7 @@ h1 {
 }
 
 .dollar-field span {
-  color: #555;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
 }
 
@@ -110,7 +112,7 @@ h1 {
 }
 
 .percent-field span {
-  color: #555;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
 }
 
@@ -121,12 +123,12 @@ h1 {
 }
 
 .app-footer a {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-secondary);
   text-decoration: none;
   font-size: 0.9rem;
 }
 
 .app-footer a:hover {
-  color: #fff;
+  color: var(--color-text-heading);
   text-decoration: underline;
 }
