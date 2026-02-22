@@ -16,9 +16,17 @@ const values = reactive<InputValues>({
   bonds: 0,
 })
 
-watch(values, () => emit('change', { ...values }), { deep: true })
+const toNum = (n: number) => (Number.isFinite(n) ? n : 0)
 
-const allocationTotal = computed(() => values.canadianStocks + values.usStocks + values.internationalStocks + values.bonds)
+watch(values, () => emit('change', {
+  ...values,
+  canadianStocks: toNum(values.canadianStocks),
+  usStocks: toNum(values.usStocks),
+  internationalStocks: toNum(values.internationalStocks),
+  bonds: toNum(values.bonds),
+}), { deep: true })
+
+const allocationTotal = computed(() => toNum(values.canadianStocks) + toNum(values.usStocks) + toNum(values.internationalStocks) + toNum(values.bonds))
 const cashAllocation = computed(() => 100 - allocationTotal.value)
 
 type DollarField = 'tfsa' | 'rrsp' | 'registered'
