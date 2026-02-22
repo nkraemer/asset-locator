@@ -1,26 +1,22 @@
 <script setup lang="ts">
-interface InputValues {
-  tfsa: number
-  rrsp: number
-  registered: number
-  canadianStocks: number
-  usStocks: number
-  internationalStocks: number
-  bonds: number
-}
-
-const props = defineProps<{
-  modelValue: InputValues
-}>()
+import { reactive, watch } from 'vue'
+import type { InputValues } from '../utils/compute'
 
 const emit = defineEmits<{
-  'update:modelValue': [value: InputValues]
+  change: [value: InputValues]
 }>()
 
-function update(field: keyof InputValues, event: Event) {
-  const val = parseFloat((event.target as HTMLInputElement).value) || 0
-  emit('update:modelValue', { ...props.modelValue, [field]: val })
-}
+const values = reactive<InputValues>({
+  tfsa: 0,
+  rrsp: 0,
+  registered: 0,
+  canadianStocks: 0,
+  usStocks: 0,
+  internationalStocks: 0,
+  bonds: 0,
+})
+
+watch(values, () => emit('change', { ...values }), { deep: true })
 </script>
 
 <template>
@@ -30,21 +26,21 @@ function update(field: keyof InputValues, event: Event) {
       <label for="tfsa-input">TFSA</label>
       <div class="dollar-field">
         <span>$</span>
-        <input id="tfsa-input" type="number" min="0" :value="modelValue.tfsa" @input="update('tfsa', $event)" />
+        <input id="tfsa-input" type="number" min="0" v-model.number="values.tfsa" />
       </div>
     </div>
     <div class="field">
       <label for="rrsp-input">RRSP</label>
       <div class="dollar-field">
         <span>$</span>
-        <input id="rrsp-input" type="number" min="0" :value="modelValue.rrsp" @input="update('rrsp', $event)" />
+        <input id="rrsp-input" type="number" min="0" v-model.number="values.rrsp" />
       </div>
     </div>
     <div class="field">
       <label for="registered-input">Registered</label>
       <div class="dollar-field">
         <span>$</span>
-        <input id="registered-input" type="number" min="0" :value="modelValue.registered" @input="update('registered', $event)" />
+        <input id="registered-input" type="number" min="0" v-model.number="values.registered" />
       </div>
     </div>
 
@@ -52,28 +48,28 @@ function update(field: keyof InputValues, event: Event) {
     <div class="field">
       <label for="canadian-stocks-input">Canadian Stocks</label>
       <div class="percent-field">
-        <input id="canadian-stocks-input" type="number" min="0" max="100" :value="modelValue.canadianStocks" @input="update('canadianStocks', $event)" />
+        <input id="canadian-stocks-input" type="number" min="0" max="100" v-model.number="values.canadianStocks" />
         <span>%</span>
       </div>
     </div>
     <div class="field">
       <label for="us-stocks-input">US Stocks</label>
       <div class="percent-field">
-        <input id="us-stocks-input" type="number" min="0" max="100" :value="modelValue.usStocks" @input="update('usStocks', $event)" />
+        <input id="us-stocks-input" type="number" min="0" max="100" v-model.number="values.usStocks" />
         <span>%</span>
       </div>
     </div>
     <div class="field">
       <label for="international-stocks-input">International Stocks</label>
       <div class="percent-field">
-        <input id="international-stocks-input" type="number" min="0" max="100" :value="modelValue.internationalStocks" @input="update('internationalStocks', $event)" />
+        <input id="international-stocks-input" type="number" min="0" max="100" v-model.number="values.internationalStocks" />
         <span>%</span>
       </div>
     </div>
     <div class="field">
       <label for="bonds-input">Bonds</label>
       <div class="percent-field">
-        <input id="bonds-input" type="number" min="0" max="100" :value="modelValue.bonds" @input="update('bonds', $event)" />
+        <input id="bonds-input" type="number" min="0" max="100" v-model.number="values.bonds" />
         <span>%</span>
       </div>
     </div>

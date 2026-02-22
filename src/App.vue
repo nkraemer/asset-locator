@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import InputPanel from './components/InputPanel.vue'
 import OutputPanel from './components/OutputPanel.vue'
 import AppFooter from './components/AppFooter.vue'
+import { compute } from './utils/compute'
+import type { OutputValues } from './utils/compute'
 
-const inputValues = reactive({ tfsa: 0, rrsp: 0, registered: 0, canadianStocks: 0, usStocks: 0, internationalStocks: 0, bonds: 0 })
+const outputValues = ref<OutputValues>({ tfsa: 0, rrsp: 0, registered: 0 })
+
+function onInputChange(inputs: Parameters<typeof compute>[0]) {
+  outputValues.value = compute(inputs)
+}
 </script>
 
 <template>
@@ -15,8 +21,8 @@ const inputValues = reactive({ tfsa: 0, rrsp: 0, registered: 0, canadianStocks: 
       across account types to optimise for tax efficiency and long-term growth.
     </p>
     <div class="panels">
-      <InputPanel v-model="inputValues" />
-      <OutputPanel :values="inputValues" />
+      <InputPanel @change="onInputChange" />
+      <OutputPanel :values="outputValues" />
     </div>
     <AppFooter />
   </main>

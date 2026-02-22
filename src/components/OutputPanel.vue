@@ -1,10 +1,8 @@
 <script setup lang="ts">
+import type { OutputValues } from '../utils/compute'
+
 defineProps<{
-  values: {
-    tfsa: number
-    rrsp: number
-    registered: number
-  }
+  values: OutputValues
 }>()
 </script>
 
