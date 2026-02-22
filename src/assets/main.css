@@ -65,13 +65,24 @@ h1 {
 }
 
 .field input[type='number'],
+.field input[type='text'],
 .field output {
-  width: 120px;
+  width: 100px;
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--color-input-border);
   border-radius: 4px;
   font-size: 1rem;
   text-align: right;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
 .field output {
@@ -97,18 +108,10 @@ h1 {
   font-size: 0.95rem;
 }
 
-.dollar-field input[type='number'] {
-  width: 105px;
-}
-
 .percent-field {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-}
-
-.percent-field input[type='number'] {
-  width: 90px;
 }
 
 .percent-field span {

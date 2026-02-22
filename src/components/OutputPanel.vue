@@ -4,6 +4,12 @@ import type { OutputValues } from '../utils/compute'
 defineProps<{
   values: OutputValues
 }>()
+
+const dollarFormatter = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 2 })
+
+function formatDollar(n: number): string {
+  return dollarFormatter.format(n)
+}
 </script>
 
 <template>
@@ -11,15 +17,15 @@ defineProps<{
     <h2>Outputs</h2>
     <div class="field">
       <label>TFSA</label>
-      <output>{{ values.tfsa }}</output>
+      <output>$ {{ formatDollar(values.tfsa) }}</output>
     </div>
     <div class="field">
       <label>RRSP</label>
-      <output>{{ values.rrsp }}</output>
+      <output>$ {{ formatDollar(values.rrsp) }}</output>
     </div>
     <div class="field">
       <label>Registered</label>
-      <output>{{ values.registered }}</output>
+      <output>$ {{ formatDollar(values.registered) }}</output>
     </div>
   </section>
 </template>
