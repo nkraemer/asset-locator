@@ -91,6 +91,10 @@ input[type='number'] {
   display: inline-block;
 }
 
+.output-panel {
+  align-self: flex-start;
+}
+
 .panel h2.section-heading {
   margin-top: 1.25rem;
   padding-top: 1rem;
