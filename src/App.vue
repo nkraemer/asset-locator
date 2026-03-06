@@ -7,7 +7,12 @@ import { compute } from './utils/compute'
 import { useExchangeRate } from './composables/useExchangeRate'
 import type { OutputValues } from './utils/compute'
 
-const outputValues = ref<OutputValues>({ tfsa: 0, rrsp: 0, registered: 0 })
+const empty = { canadianStocks: 0, usStocks: 0, internationalStocks: 0, bonds: 0 }
+const outputValues = ref<OutputValues>({
+  tfsa: { ...empty },
+  rrsp: { ...empty },
+  registered: { ...empty },
+})
 const exchangeRate = useExchangeRate()
 
 function onInputChange(inputs: Parameters<typeof compute>[0]) {
