@@ -26,6 +26,7 @@ export interface OutputValues {
   rrspNominalTotal: number
   grossUp: boolean
   exchangeRate: number | null
+  overAllocated: boolean
 }
 
 export function toNum(n: number): number {
@@ -43,10 +44,10 @@ type AccountKey = keyof OutputValues
  *   Bonds → RRSP (interest taxed at full rate), then TFSA, then Registered
  */
 const PREFERENCES: [AssetKey, AccountKey[]][] = [
+  ['bonds', ['rrsp', 'tfsa', 'registered']],
   ['usStocks', ['rrsp', 'tfsa', 'registered']],
   ['canadianStocks', ['registered', 'rrsp', 'tfsa']],
   ['internationalStocks', ['tfsa', 'rrsp', 'registered']],
-  ['bonds', ['rrsp', 'tfsa', 'registered']],
 ]
 
 function emptyAllocation(): AccountAllocation {
@@ -111,12 +112,14 @@ export function compute(inputs: InputValues): OutputValues {
   console.log("rrsp", rrsp)
   console.log("rrspNominal",rrspNominal)
   console.log("result",result)
+  const totalPercent = toNum(inputs.canadianStocks) + toNum(inputs.usStocks) + toNum(inputs.internationalStocks) + toNum(inputs.bonds)
   const final_result = {
     ...result,
     rrspNominal,
     rrspNominalTotal: rrsp,
     grossUp: inputs.grossUp && taxRate > 0,
     exchangeRate: inputs.exchangeRate,
+    overAllocated: totalPercent > 100,
   }
   console.log("final_result", final_result)
   return final_result

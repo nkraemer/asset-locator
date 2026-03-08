@@ -46,7 +46,7 @@ const allocationTotal = computed(
     toNum(values.internationalStocks) +
     toNum(values.bonds),
 )
-const cashAllocation = computed(() => 100 - allocationTotal.value)
+const cashAllocation = computed(() => Math.round((100 - allocationTotal.value) * 10) / 10)
 
 type DollarField = 'tfsa' | 'rrsp' | 'registered'
 

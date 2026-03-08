@@ -28,73 +28,93 @@ const assetLabels: { key: keyof AccountAllocation; label: string }[] = [
 </script>
 
 <template>
-  <section class="panel output-panel">
+  <section class="panel output-panel" :class="{ 'output-panel--dimmed': values.overAllocated }">
     <h2>Recommended Placement</h2>
 
-    <div class="account-block">
-      <h3>TFSA — ${{ formatDollar(accountTotal(values.tfsa)) }}</h3>
-      <template v-for="asset in assetLabels" :key="asset.key">
-        <div v-if="values.tfsa[asset.key] > 0" class="field">
+    <template v-if="values.overAllocated">
+      <div v-for="account in ['TFSA', 'RRSP', 'Non-Registered']" :key="account" class="account-block">
+        <h3>{{ account }} — -</h3>
+        <div v-for="asset in assetLabels" :key="asset.key" class="field">
           <label>{{ asset.label }}</label>
           <div class="field-values">
-            <output>$ {{ formatDollar(values.tfsa[asset.key]) }}</output>
-            <div
-              v-if="asset.key === 'usStocks' && values.exchangeRate"
-              class="field-details"
-            >
-              US$ {{ formatUsd(values.tfsa[asset.key], values.exchangeRate) }}
-            </div>
+            <output>-</output>
           </div>
         </div>
-      </template>
-    </div>
+      </div>
+    </template>
 
-    <div class="account-block">
-      <h3>RRSP — ${{ formatDollar(accountTotal(values.rrspNominal)) }}</h3>
-      <p v-if="values.grossUp" class="account-note">
-        ${{ formatDollar(accountTotal(values.rrsp)) }} (after tax)
-      </p>
-      <template v-for="asset in assetLabels" :key="asset.key">
-        <div v-if="values.rrsp[asset.key] > 0" class="field">
-          <label>{{ asset.label }}</label>
-          <div class="field-values">
-            <output>$ {{ formatDollar(values.rrspNominal[asset.key]) }}</output>
-            <div class="field-details">
-              <span v-if="asset.key === 'usStocks' && values.exchangeRate">
-                US$ {{ formatUsd(values.rrspNominal[asset.key], values.exchangeRate) }}
-              </span>
-              <span v-if="values.grossUp && asset.key === 'usStocks' && values.exchangeRate">
-                ${{ formatDollar(values.rrsp[asset.key]) }} /
-                US$ {{ formatUsd(values.rrsp[asset.key], values.exchangeRate) }} (after tax)
-              </span>
-              <span v-else-if="values.grossUp && asset.key === 'usStocks'">
-                ${{ formatDollar(values.rrsp[asset.key]) }} (after tax)
-              </span>
-              <span v-else-if="values.grossUp">
-                ${{ formatDollar(values.rrsp[asset.key]) }} (after tax)
-              </span>
+    <template v-else>
+      <div class="account-block">
+        <h3>TFSA — ${{ formatDollar(accountTotal(values.tfsa)) }}</h3>
+        <template v-for="asset in assetLabels" :key="asset.key">
+          <div v-if="values.tfsa[asset.key] > 0" class="field">
+            <label>{{ asset.label }}</label>
+            <div class="field-values">
+              <output>$ {{ formatDollar(values.tfsa[asset.key]) }}</output>
+              <div
+                v-if="asset.key === 'usStocks' && values.exchangeRate"
+                class="field-details"
+              >
+                US$ {{ formatUsd(values.tfsa[asset.key], values.exchangeRate) }}
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </div>
+        </template>
+      </div>
 
-    <div class="account-block">
-      <h3>Non-Registered — ${{ formatDollar(accountTotal(values.registered)) }}</h3>
-      <template v-for="asset in assetLabels" :key="asset.key">
-        <div v-if="values.registered[asset.key] > 0" class="field">
-          <label>{{ asset.label }}</label>
-          <div class="field-values">
-            <output>$ {{ formatDollar(values.registered[asset.key]) }}</output>
-            <div
-              v-if="asset.key === 'usStocks' && values.exchangeRate"
-              class="field-details"
-            >
-              US$ {{ formatUsd(values.registered[asset.key], values.exchangeRate) }}
+      <div class="account-block">
+        <h3>RRSP — ${{ formatDollar(accountTotal(values.rrspNominal)) }}</h3>
+        <p v-if="values.grossUp" class="account-note">
+          ${{ formatDollar(accountTotal(values.rrsp)) }} (after tax)
+        </p>
+        <template v-for="asset in assetLabels" :key="asset.key">
+          <div v-if="values.rrsp[asset.key] > 0" class="field">
+            <label>{{ asset.label }}</label>
+            <div class="field-values">
+              <output>$ {{ formatDollar(values.rrspNominal[asset.key]) }}</output>
+              <div class="field-details">
+                <span v-if="asset.key === 'usStocks' && values.exchangeRate">
+                  US$ {{ formatUsd(values.rrspNominal[asset.key], values.exchangeRate) }}
+                </span>
+                <span v-if="values.grossUp && asset.key === 'usStocks' && values.exchangeRate">
+                  ${{ formatDollar(values.rrsp[asset.key]) }} /
+                  US$ {{ formatUsd(values.rrsp[asset.key], values.exchangeRate) }} (after tax)
+                </span>
+                <span v-else-if="values.grossUp && asset.key === 'usStocks'">
+                  ${{ formatDollar(values.rrsp[asset.key]) }} (after tax)
+                </span>
+                <span v-else-if="values.grossUp">
+                  ${{ formatDollar(values.rrsp[asset.key]) }} (after tax)
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </div>
+        </template>
+      </div>
+
+      <div class="account-block">
+        <h3>Non-Registered — ${{ formatDollar(accountTotal(values.registered)) }}</h3>
+        <template v-for="asset in assetLabels" :key="asset.key">
+          <div v-if="values.registered[asset.key] > 0" class="field">
+            <label>{{ asset.label }}</label>
+            <div class="field-values">
+              <output>$ {{ formatDollar(values.registered[asset.key]) }}</output>
+              <div
+                v-if="asset.key === 'usStocks' && values.exchangeRate"
+                class="field-details"
+              >
+                US$ {{ formatUsd(values.registered[asset.key], values.exchangeRate) }}
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </template>
   </section>
 </template>
+
+<style scoped>
+.output-panel--dimmed {
+  opacity: 0.4;
+}
+</style>

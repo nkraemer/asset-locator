@@ -285,6 +285,39 @@ describe('compute', () => {
       expect(accountTotal(result.registered)).toBeLessThanOrEqual(base.registered + 0.01)
     })
 
+    it('overAllocated is false when percentages sum to 100', () => {
+      const result = compute({
+        ...base,
+        canadianStocks: 25,
+        usStocks: 25,
+        internationalStocks: 25,
+        bonds: 25,
+      })
+      expect(result.overAllocated).toBe(false)
+    })
+
+    it('overAllocated is false when percentages sum to less than 100', () => {
+      const result = compute({
+        ...base,
+        canadianStocks: 20,
+        usStocks: 20,
+        internationalStocks: 20,
+        bonds: 10,
+      })
+      expect(result.overAllocated).toBe(false)
+    })
+
+    it('overAllocated is true when percentages sum to more than 100', () => {
+      const result = compute({
+        ...base,
+        canadianStocks: 40,
+        usStocks: 30,
+        internationalStocks: 20,
+        bonds: 20,
+      })
+      expect(result.overAllocated).toBe(true)
+    })
+
     it('exchange rate is not used in allocation (informational only)', () => {
       const withRate = compute({
         ...base,
