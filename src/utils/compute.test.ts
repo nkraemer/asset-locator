@@ -27,7 +27,11 @@ describe('toNum', () => {
 })
 
 describe('compute', () => {
-  const base = { tfsa: 10000, rrsp: 20000, registered: 5000, exchangeRate: null as number | null }
+  const base = {
+    tfsa: 10000, rrsp: 20000, registered: 5000,
+    exchangeRate: null as number | null,
+    marginalTaxRate: 0, grossUp: false,
+  }
 
   describe('primary tax-optimal placements', () => {
     it('US stocks go to RRSP first', () => {
@@ -112,6 +116,7 @@ describe('compute', () => {
         internationalStocks: 0,
         bonds: 0,
         exchangeRate: null,
+        marginalTaxRate: 0, grossUp: false,
       })
       // 100% of 20000 = 20000; RRSP 10000, TFSA 5000, Registered 5000
       expect(result.rrsp.usStocks).toBeCloseTo(10000)
@@ -157,6 +162,7 @@ describe('compute', () => {
         usStocks: 0,
         internationalStocks: 0,
         exchangeRate: null,
+        marginalTaxRate: 0, grossUp: false,
       })
       // 100% of 20000 = 20000; RRSP 5000, TFSA 10000, Registered 5000
       expect(result.rrsp.bonds).toBeCloseTo(5000)
@@ -176,6 +182,7 @@ describe('compute', () => {
         canadianStocks: 0,
         internationalStocks: 0,
         exchangeRate: null,
+        marginalTaxRate: 0, grossUp: false,
       })
       // US stocks: 50% of 20000 = 10000 → fills RRSP completely
       // Bonds: 50% of 20000 = 10000 → RRSP full, goes to TFSA (5000) + Registered (5000)
@@ -226,6 +233,7 @@ describe('compute', () => {
         internationalStocks: 0,
         bonds: 0,
         exchangeRate: null,
+        marginalTaxRate: 0, grossUp: false,
       })
       expect(accountTotal(result.tfsa)).toBe(0)
       expect(accountTotal(result.rrsp)).toBe(0)
@@ -295,6 +303,179 @@ describe('compute', () => {
         bonds: 25,
       })
       expect(withRate).toEqual(withoutRate)
+    })
+  })
+
+  describe('RRSP gross-up', () => {
+    const grossUpBase = {
+      ...base,
+      grossUp: true,
+      marginalTaxRate: 40,
+    }
+
+    it('TFSA and Registered are fully allocated despite gross-up', () => {
+      // RRSP 20000 at 40% → after-tax value 12000
+      // After-tax total: 10000 + 12000 + 5000 = 27000
+      // 100% US = 27000; RRSP after-tax capacity 12000, TFSA 10000, Registered 5000
+      const result = compute({
+        ...grossUpBase,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      expect(result.rrsp.usStocks).toBeCloseTo(12000)
+      expect(result.tfsa.usStocks).toBeCloseTo(10000)
+      expect(result.registered.usStocks).toBeCloseTo(5000)
+      // Total allocated = 27000 (after-tax)
+      const totalAllocated = accountTotal(result.rrsp) + accountTotal(result.tfsa) + accountTotal(result.registered)
+      expect(totalAllocated).toBeCloseTo(27000)
+    })
+
+    it('asset amounts are based on after-tax total', () => {
+      // After-tax total: 27000
+      // 50% US = 13500; RRSP after-tax capacity 12000, overflow 1500 → TFSA
+      const result = compute({
+        ...grossUpBase,
+        usStocks: 50,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      expect(result.rrsp.usStocks).toBeCloseTo(12000)
+      expect(result.tfsa.usStocks).toBeCloseTo(1500)
+    })
+
+    it('shifts allocations away from RRSP at high tax rates', () => {
+      // Without gross-up: 30/40/30 on 35000 → US gets 14000 (all in RRSP)
+      // With 40% gross-up: 30/40/30 on 27000 → US gets 10800 (all in RRSP)
+      // The freed-up RRSP space doesn't get used because target amounts are smaller
+      const withGrossUp = compute({
+        ...grossUpBase,
+        canadianStocks: 30,
+        usStocks: 40,
+        internationalStocks: 30,
+        bonds: 0,
+      })
+      const without = compute({
+        ...base,
+        canadianStocks: 30,
+        usStocks: 40,
+        internationalStocks: 30,
+        bonds: 0,
+      })
+      // US stocks in RRSP should be less with gross-up
+      expect(withGrossUp.rrsp.usStocks).toBeLessThan(without.rrsp.usStocks)
+    })
+
+    it('grossUp false ignores marginalTaxRate', () => {
+      const result = compute({
+        ...base,
+        grossUp: false,
+        marginalTaxRate: 40,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      // No gross-up: total 35000, RRSP fills to capacity 20000
+      expect(result.rrsp.usStocks).toBeCloseTo(20000)
+      expect(accountTotal(result.rrsp)).toBeCloseTo(20000)
+    })
+
+    it('0% tax rate with gross-up has no effect', () => {
+      const withGrossUp = compute({
+        ...base,
+        grossUp: true,
+        marginalTaxRate: 0,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      const without = compute({
+        ...base,
+        grossUp: false,
+        marginalTaxRate: 0,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      expect(withGrossUp).toEqual(without)
+    })
+
+    it('clamps tax rate above 100 to 100', () => {
+      const result = compute({
+        ...base,
+        grossUp: true,
+        marginalTaxRate: 150,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      // Clamped to 100%: after-tax RRSP = 0, after-tax total = 15000
+      // RRSP has 0 after-tax capacity, so all goes to TFSA (10k) + Registered (5k)
+      expect(result.rrsp.usStocks).toBe(0)
+      expect(result.tfsa.usStocks).toBeCloseTo(10000)
+      expect(result.registered.usStocks).toBeCloseTo(5000)
+    })
+
+    it('clamps tax rate below 0 to 0', () => {
+      const resultNeg = compute({
+        ...base,
+        grossUp: true,
+        marginalTaxRate: -10,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      // Clamped to 0%: same as no gross-up, total 35000
+      expect(accountTotal(resultNeg.rrsp)).toBeCloseTo(20000)
+    })
+
+    it('rrspNominal values are rrsp / (1 - taxRate) with gross-up', () => {
+      // 40% tax rate → nominal = afterTax / 0.6
+      const result = compute({
+        ...grossUpBase,
+        usStocks: 100,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 0,
+      })
+      // RRSP after-tax capacity = 12000, so result.rrsp.usStocks = 12000
+      // Nominal = 12000 / 0.6 = 20000
+      expect(result.rrsp.usStocks).toBeCloseTo(12000)
+      expect(result.rrspNominal.usStocks).toBeCloseTo(20000)
+    })
+
+    it('rrspNominal equals rrsp when gross-up is off', () => {
+      const result = compute({
+        ...base,
+        usStocks: 50,
+        canadianStocks: 0,
+        internationalStocks: 0,
+        bonds: 50,
+      })
+      expect(result.rrspNominal.usStocks).toBeCloseTo(result.rrsp.usStocks)
+      expect(result.rrspNominal.bonds).toBeCloseTo(result.rrsp.bonds)
+      expect(result.rrspNominal.canadianStocks).toBe(result.rrsp.canadianStocks)
+      expect(result.rrspNominal.internationalStocks).toBe(result.rrsp.internationalStocks)
+    })
+
+    it('total allocated equals after-tax portfolio value at 100% allocation', () => {
+      const result = compute({
+        ...grossUpBase,
+        canadianStocks: 25,
+        usStocks: 25,
+        internationalStocks: 25,
+        bonds: 25,
+      })
+      // After-tax total = 27000
+      const totalAllocated = accountTotal(result.tfsa) + accountTotal(result.rrsp) + accountTotal(result.registered)
+      expect(totalAllocated).toBeCloseTo(27000)
     })
   })
 })

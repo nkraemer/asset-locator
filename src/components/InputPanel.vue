@@ -19,6 +19,8 @@ const values = reactive({
   usStocks: 40,
   internationalStocks: 30,
   bonds: 0,
+  marginalTaxRate: 40,
+  grossUp: false,
 })
 
 function emitChange() {
@@ -29,6 +31,8 @@ function emitChange() {
     internationalStocks: toNum(values.internationalStocks),
     bonds: toNum(values.bonds),
     exchangeRate: props.exchangeRate.rate.value,
+    marginalTaxRate: toNum(values.marginalTaxRate),
+    grossUp: values.grossUp,
   })
 }
 
@@ -206,6 +210,27 @@ function onRateReset() {
       <label for="cash-input">Cash</label>
       <div class="percent-field">
         <input id="cash-input" type="number" :value="cashAllocation" readonly tabindex="-1" />
+        <span>%</span>
+      </div>
+    </div>
+
+    <h2 class="section-heading">RRSP Gross-Up</h2>
+    <div class="field field--checkbox">
+      <label for="gross-up-input">Adjust RRSP to after-tax value</label>
+      <input id="gross-up-input" v-model="values.grossUp" type="checkbox" />
+    </div>
+    <div class="field" :class="{ 'field--disabled': !values.grossUp }">
+      <label for="marginal-tax-rate-input">Marginal Tax Rate</label>
+      <div class="percent-field">
+        <input
+          id="marginal-tax-rate-input"
+          v-model.number="values.marginalTaxRate"
+          type="number"
+          min="0"
+          max="100"
+          step="any"
+          :disabled="!values.grossUp"
+        />
         <span>%</span>
       </div>
     </div>

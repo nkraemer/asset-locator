@@ -12,6 +12,9 @@ const outputValues = ref<OutputValues>({
   tfsa: { ...empty },
   rrsp: { ...empty },
   registered: { ...empty },
+  rrspNominal: { ...empty },
+  rrspNominalTotal: 0,
+  grossUp: false,
 })
 const exchangeRate = useExchangeRate()
 

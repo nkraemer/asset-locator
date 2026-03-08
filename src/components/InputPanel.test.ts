@@ -164,4 +164,54 @@ describe('InputPanel', () => {
     }
     expect(lastPayload.exchangeRate).toBe(1.35)
   })
+
+  it('renders gross-up checkbox unchecked by default', () => {
+    const wrapper = mount(InputPanel, {
+      props: { exchangeRate: makeExchangeRateProps() },
+    })
+    const checkbox = wrapper.find('#gross-up-input')
+    expect((checkbox.element as HTMLInputElement).checked).toBe(false)
+  })
+
+  it('marginal tax rate input is disabled when gross-up is off', () => {
+    const wrapper = mount(InputPanel, {
+      props: { exchangeRate: makeExchangeRateProps() },
+    })
+    const taxInput = wrapper.find('#marginal-tax-rate-input')
+    expect((taxInput.element as HTMLInputElement).disabled).toBe(true)
+  })
+
+  it('marginal tax rate input is enabled when gross-up is checked', async () => {
+    const wrapper = mount(InputPanel, {
+      props: { exchangeRate: makeExchangeRateProps() },
+    })
+    await wrapper.find('#gross-up-input').setValue(true)
+    const taxInput = wrapper.find('#marginal-tax-rate-input')
+    expect((taxInput.element as HTMLInputElement).disabled).toBe(false)
+  })
+
+  it('emits grossUp and marginalTaxRate in change payload', async () => {
+    const wrapper = mount(InputPanel, {
+      props: { exchangeRate: makeExchangeRateProps() },
+    })
+    await wrapper.find('#gross-up-input').setValue(true)
+    await wrapper.find('#marginal-tax-rate-input').setValue(43.5)
+
+    const emitted = wrapper.emitted('change')!
+    const payload = emitted[emitted.length - 1][0] as { grossUp: boolean; marginalTaxRate: number }
+    expect(payload.grossUp).toBe(true)
+    expect(payload.marginalTaxRate).toBe(43.5)
+  })
+
+  it('emits grossUp false when checkbox is unchecked', async () => {
+    const wrapper = mount(InputPanel, {
+      props: { exchangeRate: makeExchangeRateProps() },
+    })
+    await wrapper.find('#gross-up-input').setValue(true)
+    await wrapper.find('#gross-up-input').setValue(false)
+
+    const emitted = wrapper.emitted('change')!
+    const payload = emitted[emitted.length - 1][0] as { grossUp: boolean }
+    expect(payload.grossUp).toBe(false)
+  })
 })

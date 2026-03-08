@@ -39,10 +39,19 @@ const assetLabels: { key: keyof AccountAllocation; label: string }[] = [
 
     <div class="account-block">
       <h3>RRSP — ${{ formatDollar(accountTotal(values.rrsp)) }}</h3>
+      <p v-if="values.grossUp" class="account-note">
+        ${{ formatDollar(values.rrspNominalTotal) }} nominal
+        (before tax)
+      </p>
       <template v-for="asset in assetLabels" :key="asset.key">
         <div v-if="values.rrsp[asset.key] > 0" class="field">
           <label>{{ asset.label }}</label>
-          <output>$ {{ formatDollar(values.rrsp[asset.key]) }}</output>
+          <output>
+            $ {{ formatDollar(values.rrsp[asset.key]) }}
+            <span v-if="values.grossUp" class="nominal-hint">
+              (${{ formatDollar(values.rrspNominal[asset.key]) }} nominal)
+            </span>
+          </output>
         </div>
       </template>
     </div>

@@ -7,6 +7,8 @@ export interface InputValues {
   internationalStocks: number
   bonds: number
   exchangeRate: number | null
+  marginalTaxRate: number
+  grossUp: boolean
 }
 
 export interface AccountAllocation {
@@ -20,6 +22,9 @@ export interface OutputValues {
   tfsa: AccountAllocation
   rrsp: AccountAllocation
   registered: AccountAllocation
+  rrspNominal: AccountAllocation
+  rrspNominalTotal: number
+  grossUp: boolean
 }
 
 export function toNum(n: number): number {
@@ -48,19 +53,30 @@ function emptyAllocation(): AccountAllocation {
 }
 
 export function compute(inputs: InputValues): OutputValues {
-  const total = toNum(inputs.tfsa) + toNum(inputs.rrsp) + toNum(inputs.registered)
+  const tfsa = toNum(inputs.tfsa)
+  const rrsp = toNum(inputs.rrsp)
+  const registered = toNum(inputs.registered)
+
+  // Gross-up: the RRSP's after-tax value is lower than its nominal value.
+  // Asset targets are percentages of the after-tax total, so the RRSP's
+  // capacity in the allocation loop must also be in after-tax terms to keep
+  // the units consistent. This ensures TFSA and Registered still get fully
+  // allocated — the RRSP only "consumes" its after-tax share of the targets.
+  const taxRate = inputs.grossUp ? Math.min(Math.max(toNum(inputs.marginalTaxRate), 0), 100) / 100 : 0
+  const rrspAfterTax = rrsp * (1 - taxRate)
+  const afterTaxTotal = tfsa + rrspAfterTax + registered
 
   const amounts: Record<AssetKey, number> = {
-    canadianStocks: (total * toNum(inputs.canadianStocks)) / 100,
-    usStocks: (total * toNum(inputs.usStocks)) / 100,
-    internationalStocks: (total * toNum(inputs.internationalStocks)) / 100,
-    bonds: (total * toNum(inputs.bonds)) / 100,
+    canadianStocks: (afterTaxTotal * toNum(inputs.canadianStocks)) / 100,
+    usStocks: (afterTaxTotal * toNum(inputs.usStocks)) / 100,
+    internationalStocks: (afterTaxTotal * toNum(inputs.internationalStocks)) / 100,
+    bonds: (afterTaxTotal * toNum(inputs.bonds)) / 100,
   }
 
   const capacity: Record<AccountKey, number> = {
-    tfsa: toNum(inputs.tfsa),
-    rrsp: toNum(inputs.rrsp),
-    registered: toNum(inputs.registered),
+    tfsa: tfsa,
+    rrsp: rrspAfterTax,
+    registered: registered,
   }
 
   const result: OutputValues = {
@@ -80,5 +96,21 @@ export function compute(inputs: InputValues): OutputValues {
     }
   }
 
-  return result
+  const rrspNominal = emptyAllocation()
+  if (taxRate > 0) {
+    for (const key of Object.keys(rrspNominal) as AssetKey[]) {
+      rrspNominal[key] = result.rrsp[key] / (1 - taxRate)
+    }
+  } else {
+    for (const key of Object.keys(rrspNominal) as AssetKey[]) {
+      rrspNominal[key] = result.rrsp[key]
+    }
+  }
+
+  return {
+    ...result,
+    rrspNominal,
+    rrspNominalTotal: rrsp,
+    grossUp: inputs.grossUp && taxRate > 0,
+  }
 }
