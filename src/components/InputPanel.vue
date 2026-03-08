@@ -237,7 +237,7 @@ function onRateReset() {
 
     <h2 class="section-heading">Exchange Rate</h2>
     <div class="field" :class="{ 'field--invalid': rateError }">
-      <label for="exchange-rate-input">CAD/USD</label>
+      <label for="exchange-rate-input">USD/CAD</label>
       <div class="rate-field">
         <input
           id="exchange-rate-input"

@@ -15,6 +15,7 @@ const outputValues = ref<OutputValues>({
   rrspNominal: { ...empty },
   rrspNominalTotal: 0,
   grossUp: false,
+  exchangeRate: null,
 })
 const exchangeRate = useExchangeRate()
 

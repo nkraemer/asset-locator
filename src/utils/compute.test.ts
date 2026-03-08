@@ -302,7 +302,9 @@ describe('compute', () => {
         internationalStocks: 25,
         bonds: 25,
       })
-      expect(withRate).toEqual(withoutRate)
+      expect(withRate.tfsa).toEqual(withoutRate.tfsa)
+      expect(withRate.rrsp).toEqual(withoutRate.rrsp)
+      expect(withRate.registered).toEqual(withoutRate.registered)
     })
   })
 

@@ -25,6 +25,7 @@ export interface OutputValues {
   rrspNominal: AccountAllocation
   rrspNominalTotal: number
   grossUp: boolean
+  exchangeRate: number | null
 }
 
 export function toNum(n: number): number {
@@ -112,5 +113,6 @@ export function compute(inputs: InputValues): OutputValues {
     rrspNominal,
     rrspNominalTotal: rrsp,
     grossUp: inputs.grossUp && taxRate > 0,
+    exchangeRate: inputs.exchangeRate,
   }
 }
