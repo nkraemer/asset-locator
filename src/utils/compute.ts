@@ -44,10 +44,10 @@ type AccountKey = keyof OutputValues
  *   Bonds → RRSP (interest taxed at full rate), then TFSA, then Registered
  */
 const PREFERENCES: [AssetKey, AccountKey[]][] = [
-  ['bonds', ['rrsp', 'tfsa', 'registered']],
   ['usStocks', ['rrsp', 'tfsa', 'registered']],
   ['canadianStocks', ['registered', 'rrsp', 'tfsa']],
   ['internationalStocks', ['tfsa', 'rrsp', 'registered']],
+  ['bonds', ['rrsp', 'tfsa', 'registered']],
 ]
 
 function emptyAllocation(): AccountAllocation {

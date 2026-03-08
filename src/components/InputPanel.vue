@@ -19,7 +19,7 @@ const values = reactive({
   usStocks: 40,
   internationalStocks: 30,
   bonds: 0,
-  marginalTaxRate: 40,
+  marginalTaxRate: 30,
   grossUp: false,
 })
 
