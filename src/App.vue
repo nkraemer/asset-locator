@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import InputPanel from './components/InputPanel.vue'
 import OutputPanel from './components/OutputPanel.vue'
 import AppFooter from './components/AppFooter.vue'
+import FaqSection from './components/FaqSection.vue'
 import { compute } from './utils/compute'
 import { useExchangeRate } from './composables/useExchangeRate'
 import type { OutputValues } from './utils/compute'
@@ -36,6 +37,7 @@ function onInputChange(inputs: Parameters<typeof compute>[0]) {
       <InputPanel :exchange-rate="exchangeRate" @change="onInputChange" />
       <OutputPanel :values="outputValues" />
     </div>
+    <FaqSection />
     <AppFooter />
   </main>
 </template>
