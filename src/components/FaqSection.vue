@@ -22,7 +22,7 @@
         </ol>
       </details>
       <details class="faq-item">
-        <summary>Do I need this tool?</summary>
+        <summary>Why should I use tool?</summary>
         <p>
           Probably not. This is way overkill for most people. You can probably just buy a single
           low-cost all-in-one ETF and call it a day. Also, rebalancing your accounts to match the
