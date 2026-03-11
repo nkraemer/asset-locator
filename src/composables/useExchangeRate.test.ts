@@ -1,9 +1,5 @@
 import { nextTick } from 'vue'
-import {
-  useExchangeRate,
-  parseValetResponse,
-  validateCustomRate,
-} from './useExchangeRate'
+import { useExchangeRate, parseValetResponse, validateCustomRate } from './useExchangeRate'
 
 describe('parseValetResponse', () => {
   it('parses a valid response', () => {
@@ -24,21 +20,21 @@ describe('parseValetResponse', () => {
   })
 
   it('throws on non-numeric value', () => {
-    expect(() =>
-      parseValetResponse({ observations: [{ FXUSDCAD: { v: 'abc' } }] }),
-    ).toThrow('Invalid exchange rate')
+    expect(() => parseValetResponse({ observations: [{ FXUSDCAD: { v: 'abc' } }] })).toThrow(
+      'Invalid exchange rate',
+    )
   })
 
   it('throws on zero rate', () => {
-    expect(() =>
-      parseValetResponse({ observations: [{ FXUSDCAD: { v: '0' } }] }),
-    ).toThrow('Invalid exchange rate')
+    expect(() => parseValetResponse({ observations: [{ FXUSDCAD: { v: '0' } }] })).toThrow(
+      'Invalid exchange rate',
+    )
   })
 
   it('throws on negative rate', () => {
-    expect(() =>
-      parseValetResponse({ observations: [{ FXUSDCAD: { v: '-1.5' } }] }),
-    ).toThrow('Invalid exchange rate')
+    expect(() => parseValetResponse({ observations: [{ FXUSDCAD: { v: '-1.5' } }] })).toThrow(
+      'Invalid exchange rate',
+    )
   })
 })
 

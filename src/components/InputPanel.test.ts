@@ -3,9 +3,7 @@ import { computed, ref } from 'vue'
 import InputPanel from './InputPanel.vue'
 import type { ExchangeRateState } from '../composables/useExchangeRate'
 
-function makeExchangeRateProps(
-  overrides: Partial<ExchangeRateState> = {},
-): ExchangeRateState {
+function makeExchangeRateProps(overrides: Partial<ExchangeRateState> = {}): ExchangeRateState {
   return {
     rate: computed(() => 1.35),
     fetchedRate: ref(1.35),

@@ -34,7 +34,7 @@ export function toNum(n: number): number {
 }
 
 type AssetKey = keyof AccountAllocation
-type AccountKey = keyof OutputValues
+type AccountKey = 'tfsa' | 'rrsp' | 'registered'
 
 /**
  * Tax-optimal asset location preferences (most preferred account first):
@@ -64,7 +64,9 @@ export function compute(inputs: InputValues): OutputValues {
   // capacity in the allocation loop must also be in after-tax terms to keep
   // the units consistent. This ensures TFSA and Registered still get fully
   // allocated — the RRSP only "consumes" its after-tax share of the targets.
-  const taxRate = inputs.grossUp ? Math.min(Math.max(toNum(inputs.marginalTaxRate), 0), 100) / 100 : 0
+  const taxRate = inputs.grossUp
+    ? Math.min(Math.max(toNum(inputs.marginalTaxRate), 0), 100) / 100
+    : 0
   const rrspAfterTax = rrsp * (1 - taxRate)
   const afterTaxTotal = tfsa + rrspAfterTax + registered
 
@@ -81,7 +83,7 @@ export function compute(inputs: InputValues): OutputValues {
     registered: registered,
   }
 
-  const result: OutputValues = {
+  const result: Record<AccountKey, AccountAllocation> = {
     tfsa: emptyAllocation(),
     rrsp: emptyAllocation(),
     registered: emptyAllocation(),
@@ -109,11 +111,12 @@ export function compute(inputs: InputValues): OutputValues {
     }
   }
 
-  console.log("rrsp", rrsp)
-  console.log("rrspNominal",rrspNominal)
-  console.log("result",result)
-  const totalPercent = toNum(inputs.canadianStocks) + toNum(inputs.usStocks) + toNum(inputs.internationalStocks) + toNum(inputs.bonds)
-  const final_result = {
+  const totalPercent =
+    toNum(inputs.canadianStocks) +
+    toNum(inputs.usStocks) +
+    toNum(inputs.internationalStocks) +
+    toNum(inputs.bonds)
+  return {
     ...result,
     rrspNominal,
     rrspNominalTotal: rrsp,
@@ -121,6 +124,4 @@ export function compute(inputs: InputValues): OutputValues {
     exchangeRate: inputs.exchangeRate,
     overAllocated: totalPercent > 100,
   }
-  console.log("final_result", final_result)
-  return final_result
 }
