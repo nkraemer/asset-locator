@@ -28,16 +28,17 @@ function onInputChange(inputs: Parameters<typeof compute>[0]) {
 
 <template>
   <main>
-    <h1>Asset Locator 5000</h1>
+    <h1>Canadian Asset Locator 🍁</h1>
     <p class="description">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Allocate your registered assets
-      across account types to optimise for tax efficiency and long-term growth.
+      Welcome to the Canadian Asset Locator! Use this tool to help allocate your registered assets
+      across account types to optimise for tax efficiency.
+      Before you use this tool, please understand that this is a personal project, not a polished product, and it comes with no guarantees or warranties of any kind. Always do your own research and consult a qualified financial advisor before making any investment decisions.
     </p>
+    <FaqSection />
     <div class="panels">
       <InputPanel :exchange-rate="exchangeRate" @change="onInputChange" />
       <OutputPanel :values="outputValues" />
     </div>
-    <FaqSection />
     <AppFooter />
   </main>
 </template>

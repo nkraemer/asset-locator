@@ -10,6 +10,17 @@
         </p>
       </details>
       <details class="faq-item">
+        <summary>Who made this and why?</summary>
+        <p>
+          My name is Nicholas. I'm a Canadian software/firmware engineer with an interest in personal finance.
+          I built this tool for two reasons:
+          <ul>
+          <li>1) to help myself figure out how to allocate my own investments, and</li>
+          <li>2) to practice building a non-trivial web app with Vue and Claude Code</li>
+          </ul>
+        </p>
+      </details>
+      <details class="faq-item">
         <summary>Why should I use this tool?</summary>
         <p>
           You probably shouldn't. This is way overkill for most people. You can probably just by a single
@@ -19,12 +30,19 @@
         </p>
       </details>
       <details class="faq-item">
-        <summary>Why did you make this?</summary>
-        <p>          
-          I made this tool for myself because I enjoy optimizing things and I wanted something to 
-          help me figure out how much I should put in each of my accounts. If it works for you too, that's great,
-          but make sure you understand exactly what's going on here, and consult a qualified financial advisor before making any decisions based on this tool.
-        
+        <summary>How do I use this tool?</summary>
+        <p>
+          <ul>
+            <li>Decide what percentange of your assets you'd like to allocate to:</li>
+              <ul>
+                <li>Canadian stocks</li>
+                <li>US stocks</li>
+                <li>International (non-US) stocks</li>
+                <li>Bonds</li>
+              </ul>
+            <li>Enter those percentages into the input panel on the left. The tool will show you how to allocate those assets across your TFSA, RRSP, and non-registered accounts in the output panel on the right.</li>
+            <li>If you're feeling fancy, you can gross-up your RRSP balance to reflect after-tax values</li>
+            </ul>
         </p>
       </details>
       <details class="faq-item">
@@ -77,6 +95,8 @@
           your specific income level beyond the marginal rate, or future contribution room. Always
           consult a qualified financial advisor before making investment decisions.
         </p>
+
+        The full source code is available on <a href="https://github.com/nkraemer/asset-locator">GitHub</a> if you want to see exactly how it works under the hood.
       </details>
       <details class="faq-item">
         <summary>What on earth is a TFSA and RRSP</summary>
@@ -98,9 +118,9 @@
           I am certainly not qualified to give personal finance advice, but here are some resources I find useful for learning about
           Canadian personal finance topics:
           <ul>
-            <li><a href="https://thewealthybarber.com/book/">The Wealthy Barber</a>. The Wealthy Barber Returns was how I first got started with personal finance!</li>
+            <li><a href="https://thewealthybarber.com/book/">The Wealthy Barber</a> - The Wealthy Barber Returns was how I first got started with personal finance!</li>
             <li><a href="https://www.youtube.com/@BenFelixCSI">Ben Felix's YouTube Channel</a> - Common Sense Investing </li>
-            <li><a href="https://canadiancouchpotato.com/">Canadian Couch Potato </a>Lazy Portfolios for Canadian Investors</li>
+            <li><a href="https://canadiancouchpotato.com/">Canadian Couch Potato </a> - Guide to porfolio construction for Canadian Investors</li>
           </ul>
         </p>
       </details>
