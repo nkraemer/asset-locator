@@ -3,9 +3,9 @@
     <summary class="faq-toggle">Frequently Asked Questions</summary>
     <div class="faq-content">
       <details class="faq-item">
-        <summary>What is Asset Locator 5000?</summary>
+        <summary>What is The Canadian Asset Locator?</summary>
         <p>
-          Asset Locator 5000 helps you decide how to distribute your investments across registered
+          The Canadian Asset Locator helps you decide how to distribute your investments across registered
           Canadian account types (TFSA, RRSP, and non-registered) to maximise tax efficiency.
         </p>
       </details>
