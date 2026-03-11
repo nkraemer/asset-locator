@@ -112,7 +112,7 @@
         </p>
       </details>
       <details class="faq-item">
-        <summary>What on earth are a TFSA and RRSP?</summary>
+        <summary>What on earth is a TFSA and RRSP?</summary>
         <p>
           TFSA and RRSP are two types of registered savings accounts in Canada. If you've never
           heard of these savings accounts then either:
@@ -133,7 +133,7 @@
               </li>
               <li>
                 <a
-                  href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/rrsps-related-plans/rrsps.html"
+                  href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/rrsps-related-plans/registered-retirement-savings-plan-rrsp.html"
                   rel="noopener noreferrer"
                   >Registered Retirement Savings Plan (RRSP)</a
                 >
