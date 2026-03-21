@@ -2,8 +2,7 @@ import { ref, computed } from 'vue'
 
 export type FetchStatus = 'loading' | 'ready' | 'error'
 
-const BANK_OF_CANADA_URL =
-  'https://www.bankofcanada.ca/valet/observations/FXUSDCAD/json?recent=1'
+const BANK_OF_CANADA_URL = 'https://www.bankofcanada.ca/valet/observations/FXUSDCAD/json?recent=1'
 
 export interface ExchangeRateState {
   rate: ReturnType<typeof computed<number | null>>
