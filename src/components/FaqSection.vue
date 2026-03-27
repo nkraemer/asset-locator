@@ -5,46 +5,53 @@
       <details class="faq-item">
         <summary>What is The Canadian Asset Locator?</summary>
         <p>
-          The Canadian Asset Locator helps you decide how to distribute your investments across registered
-          Canadian account types (TFSA, RRSP, and non-registered) to maximise tax efficiency.
+          The Canadian Asset Locator helps you decide how to distribute your investments across
+          registered Canadian account types (TFSA, RRSP, and non-registered) to maximise tax
+          efficiency.
         </p>
       </details>
       <details class="faq-item">
         <summary>Who made this and why?</summary>
         <p>
-          My name is Nicholas. I'm a Canadian software/firmware engineer with an interest in personal finance.
-          I built this tool for two reasons:
-          <ol>
+          My name is Nicholas. I'm a Canadian software/firmware engineer with an interest in
+          personal finance. I built this tool for two reasons:
+        </p>
+        <ol>
           <li>to help myself figure out how to allocate my own investments, and</li>
           <li>to practice building a non-trivial web app with Vue and Claude Code</li>
-          </ol>
-        </p>
+        </ol>
       </details>
       <details class="faq-item">
-        <summary>Why should I use this tool?</summary>
+        <summary>Why should I use tool?</summary>
         <p>
-          You probably shouldn't. This is way overkill for most people. You can probably just by a single
-          low-cost all-in-one ETF and call it a day. Also, reballancing your accounts to match the tool's
-          recommendations is potentially a lot of work. Any rebalancing inside a taxable account may trigger capital gains and
-          I couldn't be bothered to think through the implications of that.        
+          Probably not. This is way overkill for most people. You can probably just buy a single
+          low-cost all-in-one ETF and call it a day. Also, rebalancing your accounts to match the
+          tool's recommendations is potentially a lot of work. Any rebalancing inside a taxable
+          account may trigger capital gains and I couldn't be bothered to think through the
+          implications of that.
         </p>
       </details>
       <details class="faq-item">
         <summary>How do I use this tool?</summary>
-        <p>
-          <ol>
-            <li>Decide what percentange of your assets you'd like to allocate to:
-              <ul>
-                <li>Canadian stocks</li>
-                <li>US stocks</li>
-                <li>International (non-US) stocks</li>
-                <li>Bonds</li>
-              </ul>
-            </li>
-            <li>Enter those percentages into the input panel on the left. The tool will show you how to allocate those assets across your TFSA, RRSP, and non-registered accounts in the output panel on the right.</li>
-            <li>If you're feeling fancy, you can gross-up your RRSP balance to reflect after-tax values</li>
-          </ol>
-        </p>
+        <ol>
+          <li>
+            Decide what percentage of your assets you'd like to allocate to:
+            <ul>
+              <li>Canadian stocks</li>
+              <li>US stocks</li>
+              <li>International (non-US) stocks</li>
+              <li>Bonds</li>
+            </ul>
+          </li>
+          <li>
+            Enter those percentages into the input panel on the left. The tool will show you how to
+            allocate those assets across your TFSA, RRSP, and non-registered accounts in the output
+            panel on the right.
+          </li>
+          <li>
+            If you're feeling fancy, you can gross-up your RRSP balance to reflect after-tax values
+          </li>
+        </ol>
       </details>
       <details class="faq-item">
         <summary>How are the allocations calculated?</summary>
@@ -65,9 +72,9 @@
             fully-taxed income on withdrawal.
           </li>
           <li>
-            <strong>International Stocks</strong> &rarr; TFSA first, then RRSP, then
-            non-registered. No treaty benefit applies, so the TFSA&rsquo;s permanent tax-free
-            growth is the best home; the RRSP is next-best because growth is at least tax-deferred.
+            <strong>International Stocks</strong> &rarr; TFSA first, then RRSP, then non-registered.
+            No treaty benefit applies, so the TFSA&rsquo;s permanent tax-free growth is the best
+            home; the RRSP is next-best because growth is at least tax-deferred.
           </li>
           <li>
             <strong>Bonds</strong> &rarr; RRSP first, then TFSA, then non-registered. Interest
@@ -76,8 +83,8 @@
           </li>
         </ul>
         <p>
-          The algorithm processes asset classes in the order above (US stocks, Canadian
-          stocks, international stocks, Bonds). For each asset class it fills the most-preferred account
+          The algorithm processes asset classes in the order above (US stocks, Canadian stocks,
+          international stocks, Bonds). For each asset class it fills the most-preferred account
           first, up to that account&rsquo;s remaining capacity, then spills into the next-preferred
           account, and so on. This is a single-pass greedy approach &mdash; it does not backtrack or
           globally optimise, so results may differ from a full linear-programming solution in edge
@@ -86,45 +93,82 @@
         <p>
           <strong>RRSP gross-up:</strong> When enabled, the tool treats your RRSP balance at its
           after-tax value (nominal balance &times; (1 &minus; marginal tax rate)) so that allocation
-          targets reflect what you actually keep after withdrawal tax. The output then shows both the
-          after-tax allocation and the nominal dollars to hold in the RRSP.
+          targets reflect what you actually keep after withdrawal tax. The output then shows both
+          the after-tax allocation and the nominal dollars to hold in the RRSP.
         </p>
         <p>
           <strong>Limitations:</strong> This tool provides a simplified starting point, not
           personalised financial advice. It does not account for provincial tax differences, foreign
           withholding tax on international (non-US) dividends, capital-gains inclusion rate changes,
-          your specific income level beyond the marginal rate, or future contribution room. Always
-          consult a qualified financial advisor before making investment decisions.
+          your specific income level beyond the marginal rate, or future contribution room. Other
+          registered account types (FHSA, RESP) are not covered. Cash or cash equivalents have no
+          placement logic &mdash; any unallocated balance is simply the remainder. Always consult a
+          qualified financial advisor before making investment decisions.
         </p>
-
-        The full source code is available on <a href="https://github.com/nkraemer/asset-locator">GitHub</a> if you want to see exactly how it works under the hood.
+        <p>
+          The full source code is available on
+          <a href="https://github.com/nkraemer/asset-locator" rel="noopener noreferrer">GitHub</a>
+          if you want to see exactly how it works under the hood.
+        </p>
       </details>
       <details class="faq-item">
         <summary>What on earth is a TFSA and RRSP</summary>
         <div>
           <p>TFSA and RRSP are two types of registered savings accounts in Canada. If you've never heard of these savings accounts then either:</p>
-          <ol type="a">
+          </div>
+          <ol type="A">
           <li>you're not a Canadian and this tool isn't for you (sorry!).</li>
-          <li>you live in Canada but are very new to personal finance topics. In that case, welcome! This tool probably isn't for you just yet. You can learn about TFSAs and RRSPs on the Government of Canada website:
+          <li>
+            you live in Canada but are very new to personal finance topics. In that case, welcome!
+            This tool probably isn't for you just yet. You can learn about TFSAs and RRSPs on the
+            Government of Canada website:
             <ul>
-              <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/tax-free-savings-account.html">Tax-Free Savings Account (TFSA)</a></li>
-              <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/rrsps-related-plans/rrsps.html">Registered Retirement Savings Plan (RRSP)</a></li>
+              <li>
+                <a
+                  href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/tax-free-savings-account.html"
+                  rel="noopener noreferrer"
+                  >Tax-Free Savings Account (TFSA)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/rrsps-related-plans/registered-retirement-savings-plan-rrsp.html"
+                  rel="noopener noreferrer"
+                  >Registered Retirement Savings Plan (RRSP)</a
+                >
+              </li>
             </ul>
           </li>
-          </ol>
-        </div>
+        </ol>
       </details>
       <details class="faq-item">
         <summary>Any personal finance tips?</summary>
         <div>
-          <p>I am certainly not qualified to give personal finance advice, but here are some resources I found useful for learning about
-          Canadian personal finance topics:</p>
-          <ul>
-            <li><a href="https://thewealthybarber.com/book/">The Wealthy Barber</a> - The Wealthy Barber Returns was how I first got started with personal finance!</li>
-            <li><a href="https://www.youtube.com/@BenFelixCSI">Ben Felix's YouTube Channel</a> - Common Sense Investing </li>
-            <li><a href="https://canadiancouchpotato.com/">Canadian Couch Potato </a> - Guide to porfolio construction for Canadian Investors</li>
-          </ul>
+        <p>
+          I am certainly not qualified to give personal finance advice, but here are some resources
+          I found useful for learning about Canadian personal finance topics:
+        </p>
         </div>
+        <ul>
+          <li>
+            <a href="https://thewealthybarber.com/book/" rel="noopener noreferrer"
+              >The Wealthy Barber</a
+            >
+            - The Wealthy Barber Returns was how I first got started with personal finance!
+          </li>
+          <li>
+            <a href="https://www.youtube.com/@BenFelixCSI" rel="noopener noreferrer"
+              >Ben Felix's YouTube Channel</a
+            >
+            - Common Sense Investing
+          </li>
+          <li>
+            <a href="https://canadiancouchpotato.com/" rel="noopener noreferrer"
+              >Canadian Couch Potato
+            </a>
+            - Guide to portfolio construction for Canadian Investors
+          </li>
+        </ul>
       </details>
       <details class="faq-item">
         <summary>Is my data stored or sent anywhere?</summary>
@@ -218,8 +262,6 @@
 }
 
 .faq-item > ul,
-.faq-item > p > ul,
-.faq-item > p > ol,
 .faq-item > ol {
   margin: 0.5rem 0 0.5rem 1.25rem;
   padding-left: 1.25rem;
@@ -228,9 +270,7 @@
 }
 
 .faq-item > ul > li,
-.faq-item > ol > li,
-.faq-item > p > ul > li,
-.faq-item > p > ol > li {
+.faq-item > ol > li {
   margin-bottom: 0.4rem;
 }
 

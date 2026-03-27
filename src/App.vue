@@ -30,9 +30,11 @@ function onInputChange(inputs: Parameters<typeof compute>[0]) {
   <main>
     <h1>Canadian Asset Locator 🍁</h1>
     <p class="description">
-      Welcome to the Canadian Asset Locator! Use this tool to help allocate your registered assets
-      across account types to optimise for tax efficiency.
-      Before you use this tool, please understand that this is a personal project, not a polished product, and it comes with no guarantees or warranties of any kind. Always do your own research and consult a qualified financial advisor before making any investment decisions.
+      Welcome to the Canadian Asset Locator! Use this tool to help allocate your investment assets
+      across account types to optimise for tax efficiency. Before you use this tool, please
+      understand that this is a personal project, not a polished product, and it comes with no
+      guarantees or warranties of any kind. Always do your own research and consult a qualified
+      financial advisor before making any investment decisions.
     </p>
     <FaqSection />
     <div class="panels">

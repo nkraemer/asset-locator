@@ -28,9 +28,12 @@ describe('toNum', () => {
 
 describe('compute', () => {
   const base = {
-    tfsa: 10000, rrsp: 20000, registered: 5000,
+    tfsa: 10000,
+    rrsp: 20000,
+    registered: 5000,
     exchangeRate: null as number | null,
-    marginalTaxRate: 0, grossUp: false,
+    marginalTaxRate: 0,
+    grossUp: false,
   }
 
   describe('primary tax-optimal placements', () => {
@@ -116,7 +119,8 @@ describe('compute', () => {
         internationalStocks: 0,
         bonds: 0,
         exchangeRate: null,
-        marginalTaxRate: 0, grossUp: false,
+        marginalTaxRate: 0,
+        grossUp: false,
       })
       // 100% of 20000 = 20000; RRSP 10000, TFSA 5000, Registered 5000
       expect(result.rrsp.usStocks).toBeCloseTo(10000)
@@ -162,7 +166,8 @@ describe('compute', () => {
         usStocks: 0,
         internationalStocks: 0,
         exchangeRate: null,
-        marginalTaxRate: 0, grossUp: false,
+        marginalTaxRate: 0,
+        grossUp: false,
       })
       // 100% of 20000 = 20000; RRSP 5000, TFSA 10000, Registered 5000
       expect(result.rrsp.bonds).toBeCloseTo(5000)
@@ -182,7 +187,8 @@ describe('compute', () => {
         canadianStocks: 0,
         internationalStocks: 0,
         exchangeRate: null,
-        marginalTaxRate: 0, grossUp: false,
+        marginalTaxRate: 0,
+        grossUp: false,
       })
       // US stocks: 50% of 20000 = 10000 → fills RRSP completely
       // Bonds: 50% of 20000 = 10000 → RRSP full, goes to TFSA (5000) + Registered (5000)
@@ -233,7 +239,8 @@ describe('compute', () => {
         internationalStocks: 0,
         bonds: 0,
         exchangeRate: null,
-        marginalTaxRate: 0, grossUp: false,
+        marginalTaxRate: 0,
+        grossUp: false,
       })
       expect(accountTotal(result.tfsa)).toBe(0)
       expect(accountTotal(result.rrsp)).toBe(0)
@@ -363,7 +370,8 @@ describe('compute', () => {
       expect(result.tfsa.usStocks).toBeCloseTo(10000)
       expect(result.registered.usStocks).toBeCloseTo(5000)
       // Total allocated = 27000 (after-tax)
-      const totalAllocated = accountTotal(result.rrsp) + accountTotal(result.tfsa) + accountTotal(result.registered)
+      const totalAllocated =
+        accountTotal(result.rrsp) + accountTotal(result.tfsa) + accountTotal(result.registered)
       expect(totalAllocated).toBeCloseTo(27000)
     })
 
@@ -509,7 +517,8 @@ describe('compute', () => {
         bonds: 25,
       })
       // After-tax total = 27000
-      const totalAllocated = accountTotal(result.tfsa) + accountTotal(result.rrsp) + accountTotal(result.registered)
+      const totalAllocated =
+        accountTotal(result.tfsa) + accountTotal(result.rrsp) + accountTotal(result.registered)
       expect(totalAllocated).toBeCloseTo(27000)
     })
   })
