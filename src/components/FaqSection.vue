@@ -101,8 +101,8 @@
       </details>
       <details class="faq-item">
         <summary>What on earth is a TFSA and RRSP</summary>
-        <p>
-          TFSA and RRSP are two types of registered savings accounts in Canada. If you've never heard of these savings accounts then either:
+        <div>
+          <p>TFSA and RRSP are two types of registered savings accounts in Canada. If you've never heard of these savings accounts then either:</p>
           <ol type="a">
           <li>you're not a Canadian and this tool isn't for you (sorry!).</li>
           <li>you live in Canada but are very new to personal finance topics. In that case, welcome! This tool probably isn't for you just yet. You can learn about TFSAs and RRSPs on the Government of Canada website:
@@ -112,25 +112,27 @@
             </ul>
           </li>
           </ol>
-        </p>
+        </div>
       </details>
       <details class="faq-item">
         <summary>Any personal finance tips?</summary>
-        <p>
-          I am certainly not qualified to give personal finance advice, but here are some resources I found useful for learning about
-          Canadian personal finance topics:
+        <div>
+          <p>I am certainly not qualified to give personal finance advice, but here are some resources I found useful for learning about
+          Canadian personal finance topics:</p>
           <ul>
             <li><a href="https://thewealthybarber.com/book/">The Wealthy Barber</a> - The Wealthy Barber Returns was how I first got started with personal finance!</li>
             <li><a href="https://www.youtube.com/@BenFelixCSI">Ben Felix's YouTube Channel</a> - Common Sense Investing </li>
             <li><a href="https://canadiancouchpotato.com/">Canadian Couch Potato </a> - Guide to porfolio construction for Canadian Investors</li>
           </ul>
-        </p>
+        </div>
       </details>
       <details class="faq-item">
         <summary>Is my data stored or sent anywhere?</summary>
         <p>
-          No. All calculations run entirely in your browser. No data is sent to any server or stored
-          anywhere beyond your current session.
+          Your financial data (account balances, allocations) never leaves your browser — all
+          calculations run locally and nothing is stored beyond your current session. We use
+          <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> to count
+          page views. This is cookieless and collects no personal data.
         </p>
       </details>
     </div>
