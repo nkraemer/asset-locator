@@ -33,4 +33,4 @@ Asset Locator 5000 — a Vue 3 single-page app for allocating registered investm
 - Test environment: jsdom with Vitest globals enabled (no need to import `describe`/`it`/`expect`)
 - Use `type` imports enforced by `@typescript-eslint/consistent-type-imports`
 - `no-explicit-any` is enforced in source but relaxed in test files
-- Deployed to `/asset-locator/` base path (note: repo name has typo "locatator", deploy path is "locator")
+- Deployed to `/asset-locator/` base path (note: repo name has typo "locator", deploy path is "locator")
