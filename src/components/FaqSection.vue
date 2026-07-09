@@ -24,7 +24,7 @@
       <details class="faq-item">
         <summary>Why should I use tool?</summary>
         <p>
-          Probably not. This is way overkill for most people. You can probably just buy a single
+          You probably should not. This is way overkill for most people. You can probably just buy a single
           low-cost all-in-one ETF and call it a day. Also, rebalancing your accounts to match the
           tool's recommendations is potentially a lot of work. Any rebalancing inside a taxable
           account may trigger capital gains and I couldn't be bothered to think through the
